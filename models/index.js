@@ -8,7 +8,7 @@ var pageSchema = new Schema({
 	content: {type: String, required: true},
 	date:  {type: Date, default: Date.now},
 	status: {type: String, enum: [ 'open', 'closed']},
-	author: {type: Schema.Types.ObjectId, ref: 'User'} //?
+	author: {type: Schema.Types.ObjectId, ref: 'User'} //must me document Ids from User
 })
 
 var userSchema = new Schema({

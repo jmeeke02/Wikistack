@@ -8,11 +8,7 @@ router.get('/', function(req, res){
 	res.render('index');
 })
 
-router.get('/:urlTitle', function(req, res){
-	page.virtual(req.params.urlTitle).get(function(){
-	res.render(this.content);
-	});
-});
+//page.fullTitle
 
 module.exports = router;
 

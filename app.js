@@ -3,6 +3,7 @@ var app = express();
 var morgan = require('morgan');
 var swig = require('swig');
 var routes = require('./routes/');
+var wikiRouter = require('./routes/wiki');
 var bodyParser =  require('body-parser');
 
 //Swig boilerplate code
@@ -22,4 +23,5 @@ app.use(morgan('dev'));
 
 app.use(express.static('public'));
 
+app.use('/wiki', wikiRouter);
 app.use('/', routes);
