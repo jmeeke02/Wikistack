@@ -8,7 +8,8 @@ var pageSchema = new Schema({
 	content: {type: String, required: true},
 	date:  {type: Date, default: Date.now},
 	status: {type: String, enum: [ 'open', 'closed']},
-	author: {type: Schema.Types.ObjectId, ref: 'User'} //must me document Ids from User
+	author: {type: Schema.Types.ObjectId, ref: 'User'}, //must me document Ids from User
+	tags: {type: Array}
 })
 
 var userSchema = new Schema({
@@ -16,12 +17,29 @@ var userSchema = new Schema({
 	email: {type: String, required: true, unique: true}
 });
 
+
+pageSchema.virtual('fullTitle').get(function(){
+	return '/wiki/' + this.urlTitle;
+});
+
+
+pageSchema.pre('validate', function generateUrlTitle(next){
+  if(this.title){
+		newTitle = this.title.replace(/[^a-z\d\s]/ig, "");
+		this.urlTitle = newTitle.replace(/\s/g, "_");
+	}else{
+    this.urlTitle = Math.random().toString(36).substring(2, 7);
+  }
+  next();
+});
+
+pageSchema.statics.findByTag = function(tag){
+	return this.find({ tags: { $elemMatch: { $eq : tag}}}).exec()
+};
+
 var Page = mongoose.model('Page', pageSchema);
 var User = mongoose.model('User', userSchema);
 
-pageSchema.virtual('fullTitle').get(function(){
-	return "/wiki/" + this.urlTitle;
-});
 
 
 mongoose.connect('mongodb://localhost/wikistack'); // <= db name will be 'wikistack'

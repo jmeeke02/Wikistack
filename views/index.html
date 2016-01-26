@@ -5,5 +5,8 @@
   <hr>
   <ul class="list-unstyled">
     <!-- PLACEHOLDER LIST OF PAGES -->
+    {% for title in titles %}
+    	<li>{{ title | pageLink }}</a></li>
+    {% endfor %}
   </ul>
 {% endblock %}
