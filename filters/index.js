@@ -4,6 +4,10 @@ module.exports = function(swig) {
     return '<a href="' + page.fullTitle + '">' + page.title + '</a>';
   };
 
+  // var tagLink = function(tag) {
+  // 	return '<a href="' + '/wiki/search/' + tag + '">' + tag + '</a>';
+  // };
+
   pageLink.safe = true;
 
   swig.setFilter('pageLink', pageLink);

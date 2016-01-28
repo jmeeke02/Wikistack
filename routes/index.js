@@ -9,13 +9,12 @@ router.get('/', function(req, res){
 	query.exec(function(err, pages){
 		console.log(pages);
 		res.render('index', {titles: pages});
-	})
-	
-})
+	});
+});
 
 router.get('/search', function(req, res){
 	res.render('search');
-})
+});
 
 //page.fullTitle
 

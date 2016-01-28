@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <h3>{{page.title}} <small> (<a href="PLACEHOLDER_URL_TITLE/similar">Similar</a>)</small></h3>
+  <h3>{{page.title}} <small> (<a href="{{ page.urlTitle }}/similar">Similar Pages</a>)</small></h3>
   <h4>by <a href="PLACEHOLDER-AUTHOR-URL">Author</a></h4>
-  <div>#{{page.tags | join(" #")}}</div>
+  {% for tag in tags %}
+  	<div><a href="/wiki/search/?tags={{tag}}"> {{tag}} </a></div>
+  {% endfor %}
   <hr/>
   <div>Author Name</div>
   <div class="page-body">{{page.content}}</div>
