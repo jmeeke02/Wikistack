@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var marked = require('marked');
 // Notice the `mongodb` protocol; Mongo is basically a kind of server,
 // which handles database requests and sends responses. It's async!
 var Schema = mongoose.Schema;
@@ -10,7 +11,7 @@ var pageSchema = new Schema({
 	status: {type: String, enum: [ 'open', 'closed']},
 	author: {type: Schema.Types.ObjectId, ref: 'User'}, //must me document Ids from User
 	tags: {type: [String]}
-})
+});
 
 //pageSchema.path(otherproperty){
 // 	otherproperty: String
@@ -27,6 +28,10 @@ var userSchema = new Schema({
 //virtuals are like functions but auto invoked for you, can't do fullTitle()
 pageSchema.virtual('fullTitle').get(function(){
 	return '/wiki/' + this.urlTitle;
+});
+
+pageSchema.virtual('renderedContent').get(function(){
+	return marked(this.content);
 });
 //important to note when we call virtuals, hooks methods, the this
 //becomes the specific page were accessing or triggering that virtual for
@@ -104,16 +109,16 @@ module.exports = {
 // find, findOne
 //use populate when you're dong a query 
 
-page.find({page: "test"}).populate('ownerId').exec()
-page.ownerId.name = "Tom";
+// page.find({page: "test"}).populate('ownerId').exec()
+// page.ownerId.name = "Tom";
 
 //owner is the field to reference 
 
-Story
-.findOne({ title: 'Once upon a timex.' })
-.populate('_creator')
-.exec(function (err, story) {
-  if (err) return handleError(err);
-  console.log('The creator is %s', story._creator.name);
-  // prints "The creator is Aaron"
-});
+// Story
+// .findOne({ title: 'Once upon a timex.' })
+// .populate('_creator')
+// .exec(function (err, story) {
+//   if (err) return handleError(err);
+//   console.log('The creator is %s', story._creator.name);
+//   // prints "The creator is Aaron"
+// });

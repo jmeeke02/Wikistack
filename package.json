@@ -12,6 +12,7 @@
     "bluebird": "^3.1.5",
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
+    "marked": "^0.3.5",
     "mongoose": "^4.3.7",
     "morgan": "^1.6.1",
     "routes": "^2.1.0",

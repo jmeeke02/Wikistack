@@ -36,13 +36,13 @@ router.get('/:urlTitle/similar', function(request, response, next){
 router.get('/:urlTitle', function(request, response, next) {
 	// response.send(request.params.urlTitle);
 	console.log("url test");
-	var query = Page.findOne({urlTitle: request.params.urlTitle});
+	var query = Page.findOne({urlTitle: request.params.urlTitle}).populate('author').exec();
 	//dont have to actually execute, the .then will execute for you
 	//a hidden exec going on
 	//var query = Page.find({}) - this is a query
 	//var thePromise = query.exec() -- this is a promise
 	query.then(function(page){
-		 response.render("wikipage", {page: page, tags: page.tags});
+		 response.render("wikipage", {page: page, tags: page.tags, author: page.author});
 		 console.log(page.tags);
 	}, function(err){
 		return handleError(err);
