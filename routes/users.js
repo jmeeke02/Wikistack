@@ -8,12 +8,10 @@ var Promise = require('bluebird');
 
 
 router.get('/:userID', function(req, res, next){
-	var userPromise = User.findOne({_id: req.params.userID}).exec();
-	var pagePromise = Page.find({author: req.params.userID}).exec();
-	Promise.all([userPromise, pagePromise])
-	.then(function(promiseArr){
-		console.log('pages', promiseArr[0], promiseArr[1]);
-		res.render('singleuser', {user: promiseArr[0], pages: promiseArr[1]});
+	var pagePromise = Page.find({author: req.params.userID}).exec()
+	.populate('author')
+	.then(function(pages){
+		res.render('singleuser', {user: pages.author.name, pages: pages});
 	}).catch(next);
 });
 

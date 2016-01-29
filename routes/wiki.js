@@ -29,7 +29,9 @@ router.get('/:urlTitle/similar', function(request, response, next){
 		return page.findSimilar(page.tags);
 	}).then(function(pages){
 		response.render("index", {titles: pages});
-	});
+	}).then(null, function(err){
+		console.log(err);
+	})
 });
 
 // /wiki/(dynamic value)

@@ -65,6 +65,7 @@ pageSchema.pre('validate', function generateUrlTitle(next){
 	//static has to be called on the Class itself so
 	//Page.static would look through the model to find instances of pages in the model by tag such as findByTag
 
+//in static this is model User
 userSchema.statics.findOrCreate = function(obj){
 	var self = this; //this is the model (User) inside a static function
 	var promiseA = this.findOne({email: obj.email}).exec();
@@ -84,12 +85,22 @@ userSchema.statics.findOrCreate = function(obj){
 
 
 // pageSchema.methods.
+//statics called off of model, this is the page model itslef, meant to do somethign wiht model
 pageSchema.statics.findByTag = function(tag){
 	return this.find({ tags: { $elemMatch: { $eq : tag}}}).exec()
 };
 //call it through model directly like Page
+//method to be called on a specific page, this is the specific page
+//method called on a specific page, this is that specific page
 pageSchema.methods.findSimilar = function(page){
-	return this.model('Page').find({tags: { $in: this.tags }});
+	return this.model('Page').find({
+		tags: { 
+			$in: this.tags 
+		},
+		_id: {
+			$ne: this._id;
+		}
+	}).exec()
 }
 
 var Page = mongoose.model('Page', pageSchema);
